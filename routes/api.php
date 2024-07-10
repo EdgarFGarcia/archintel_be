@@ -51,4 +51,7 @@ Route::group([
     'ability'       => 'article:create,article:edit,'
 ], function(){
     Route::post('/', [App\Http\Controllers\Article\ArticleController::class, 'addArticle']);
+    Route::patch('/{article_id?}', [App\Http\Controllers\Article\ArticleController::class, 'forEdit']);
+    Route::patch('/{article_id?}/publish', [App\Http\Controllers\Article\ArticleController::class, 'publish']);
+    Route::patch('/{article_id?}/save', [App\Http\Controllers\Article\ArticleController::class, 'save']);
 });

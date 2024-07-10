@@ -64,4 +64,75 @@ class ArticleController extends Controller
             return $this->error($e, 500);
         }
     }
+
+    /**
+     * only for `for edit` article status
+     * @params
+     * Request $request,
+     * int $article_id
+     *
+     * @validation
+     *
+     * @return
+     * object | bool
+     */
+    public function forEdit(
+        Request $request,
+        int $article_id
+    ) : object | bool | array{
+        try{
+            return [
+                $request->all(),
+                $article_id
+            ];
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     * save and publish an article
+     * @params
+     * Request $request,
+     * int $article_id
+     *
+     * @return
+     * object | array
+     */
+    public function publish(
+        Request $request,
+        int $article_id
+    ) : object | array{
+        try{
+            return [
+                $request->all(),
+                $article_id
+            ];
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     * save an article but don't publish
+     * @params
+     * Request $request,
+     * int $article_id
+     *
+     * @return
+     * object | array
+     */
+    public function save(
+        Request $request,
+        int $article_id
+    ) : object | array{
+        try{
+            return [
+                $request->all(),
+                $article_id
+            ];
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
 }
