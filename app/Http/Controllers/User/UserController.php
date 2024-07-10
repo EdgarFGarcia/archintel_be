@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
  * validate include
  */
 use App\Http\Controllers\User\Validation\ValidateLogin;
+use App\Http\Controllers\User\Validation\ValidateRegister;
 
 /**
  * service concrete class
@@ -47,7 +48,6 @@ class UserController extends Controller
         ValidateLogin $request
     ) : object | null{
         try{
-            // $valid_data = $request->validated();
             $login_user = $this->service_user->login($request->validated());
             if($login_user){
                 return response()->json([
@@ -58,6 +58,34 @@ class UserController extends Controller
             return response()->json([
                 'response'  => false,
                 'data'      => []
+            ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     * register a user
+     * @params
+     * Request $request
+     *
+     * @return
+     * object
+     */
+    public function register(
+        ValidateRegister $request
+    ) : object | null{
+        try{
+            $register_user = $this->service_user->registerUser($request->validated());
+            if($register_user){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'Registration, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => "There's an error occured!"
             ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);

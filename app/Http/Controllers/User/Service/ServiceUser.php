@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\User\Service;
 
 /**
- * laravel helper facade
+ * laravel helper facade | eloquents
  */
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -46,6 +47,7 @@ class ServiceUser implements IServiceUser
     public function registerUser(
         array $data
     ) : object{
+        $data['password'] = Hash::make($data['password']);
         return $this->repo_user->register($data);
     }
 
@@ -103,6 +105,27 @@ class ServiceUser implements IServiceUser
     public function generateToken(
         Model $data
     ){
+        if($data->user_type_id == 2){
+            /**
+             * writer
+             * abilities should be added as a database fetch record, for much cleaner approach
+             */
+            return $data->createToken($data->email, [
+                'article:create',
+                'article:edit',
+                'article:delete',
+                'user:create',
+                'company:create',
+                'company:edit',
+                'company:delete'
+            ]);
+        }
+        if($data->user_type_id == 3){
+            // editor
+            return $data->createToken($data->email, [
+                'article:edit'
+            ]);
+        }
         return $data->createToken($data->email);
     }
 }
