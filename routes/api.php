@@ -44,4 +44,7 @@ Route::group([
     'abilities'     => 'company:create,company:edit,company:delete'
 ], function(){
     Route::get('/', [App\Http\Controllers\Company\CompanyController::class, 'getCompanies']);
+    Route::get('/{company_id?}', [App\Http\Controllers\Company\CompanyController::class, 'getCompany']);
+    Route::post('/', [App\Http\Controllers\Company\CompanyController::class, 'addCompany']);
 });
+
