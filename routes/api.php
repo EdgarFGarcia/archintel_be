@@ -3,14 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
 /**
- |------------------------------------------------------------
+ |-------------------------------------------------------------------------------------------------------------------------------------------------
  |unauth endpoints
- |-------------------------------------------------------------
+ |-------------------------------------------------------------------------------------------------------------------------------------------------
  */
 Route::group([
     'prefix' => 'unauth'
@@ -21,14 +17,15 @@ Route::group([
 
 
 /**
- |------------------------------------------------------------
+ |-------------------------------------------------------------------------------------------------------------------------------------------------
  |auth endpoints with abilities
- |------------------------------------------------------------
+ |-------------------------------------------------------------------------------------------------------------------------------------------------
  |The `abilities` middleware may be assigned to a route to verify that the incoming request's token has all of the listed abilities:
  |The `ability` middleware may be assigned to a route to verify that the incoming request's token has at least one of the listed abilities:
  |- Users
  |- Company
  |- Article
+ |-------------------------------------------------------------------------------------------------------------------------------------------------
  */
 Route::group([
     'prefix'        => 'users',
@@ -43,8 +40,15 @@ Route::group([
     'middleware'    => 'auth:sanctum',
     'abilities'     => 'company:create,company:edit,company:delete'
 ], function(){
+    Route::post('/', [App\Http\Controllers\Company\CompanyController::class, 'addCompany']);
     Route::get('/', [App\Http\Controllers\Company\CompanyController::class, 'getCompanies']);
     Route::get('/{company_id?}', [App\Http\Controllers\Company\CompanyController::class, 'getCompany']);
-    Route::post('/', [App\Http\Controllers\Company\CompanyController::class, 'addCompany']);
 });
 
+Route::group([
+    'prefix'        => 'article',
+    'middleware'    => 'auth:sanctum',
+    'ability'       => 'article:create,article:edit,'
+], function(){
+    Route::post('/', [App\Http\Controllers\Article\ArticleController::class, 'addArticle']);
+});

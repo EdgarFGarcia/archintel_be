@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('title');
             $table->string('link');
+            $table->date('date_created');
             $table->longText('content');
             $table->bigInteger('article_status_id');
             $table->bigInteger('writer_id')->nullable();
