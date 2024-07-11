@@ -66,6 +66,32 @@ class ArticleController extends Controller
     }
 
     /**
+     * get all articles
+     * @params
+     * none
+     *
+     * @return
+     * object
+     */
+    public function getArticles() : object{
+        try{
+            $articles = $this->service_article->getArticle(null);
+            if($articles){
+                return response()->json([
+                    'response'  => true,
+                    'data'      => $articles
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'data'      => []
+            ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
      * only for `for edit` article status
      * @params
      * Request $request,

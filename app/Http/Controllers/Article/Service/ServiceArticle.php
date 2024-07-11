@@ -68,9 +68,13 @@ class ServiceArticle implements IServiceArticle
         array $where = null
     ) : object | null{
         if(is_null($where)){
-            return $this->repo_article->getArticle([])->get();
+            return $this->repo_article->getArticle([])
+            ->with('getArticleStatus', 'getWriter', 'getEditor', 'getCompany')
+            ->get();
         }
-        return $this->repo_article->getArticle($where)->first();
+        return $this->repo_article->getArticle($where)
+            ->with('getArticleStatus', 'getWriter', 'getEditor', 'getCompany')
+            ->first();
     }
 
     /**
