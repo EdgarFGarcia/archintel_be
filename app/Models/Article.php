@@ -31,6 +31,13 @@ class Article extends Model
         'company_id'
     ];
 
+    /**
+     * casts
+     */
+    protected $casts = [
+        // 'date_created' => 'datetime:M d, Y h:i a'
+    ];
+
     public function getArticleStatus() : HasOne{
         return $this->hasOne(ArticleStatus::class, 'id', 'article_status_id');
     }

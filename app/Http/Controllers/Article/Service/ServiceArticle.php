@@ -66,11 +66,22 @@ class ServiceArticle implements IServiceArticle
      */
     public function getArticle(
         array $where = null
-    ) : object | null{
+    ) : object | null | array{
         if(is_null($where)){
-            return $this->repo_article->getArticle([])
+            $for_edit = $this->repo_article->getArticle([])
             ->with('getArticleStatus', 'getWriter', 'getEditor', 'getCompany')
+            ->where('article_status_id', 1)
             ->get();
+
+            $published = $this->repo_article->getArticle([])
+            ->with('getArticleStatus', 'getWriter', 'getEditor', 'getCompany')
+            ->where('article_status_id', 2)
+            ->get();
+
+            return [
+                "for_edit" => $for_edit,
+                "published" => $published
+            ];
         }
         return $this->repo_article->getArticle($where)
             ->with('getArticleStatus', 'getWriter', 'getEditor', 'getCompany')
@@ -116,10 +127,12 @@ class ServiceArticle implements IServiceArticle
     ) : int | bool {
         if($data['article_status_id'] == 1){
             $data['writer_id'] = Auth::user()->id;
+            $data['date_created'] = date('Y-m-d');
             return $this->updateArticle($article_id, $data);
         }
         if($data['article_status_id'] == 2){
             $data['editor_id'] = Auth::user()->id;
+            $data['date_created'] = date('Y-m-d');
             return $this->updateArticle($article_id, $data);
         }
         return false;

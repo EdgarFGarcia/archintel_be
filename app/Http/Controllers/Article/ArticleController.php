@@ -59,7 +59,7 @@ class ArticleController extends Controller
             }
             return response()->json([
                 'response'  => false,
-                'message'   => "There's an error!"
+                'message'   => "There's an error! Or you are an editor, this feature is for writers only!"
             ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);
@@ -72,15 +72,17 @@ class ArticleController extends Controller
      * none
      *
      * @return
-     * object
+     * object | array
      */
-    public function getArticles() : object{
+    public function getArticles() : object | array{
         try{
-            $articles = $this->service_article->getArticle(null);
-            if($articles){
+            $article = $this->service_article->getArticle(null);
+            if($article){
                 return response()->json([
                     'response'  => true,
-                    'data'      => $articles
+                    // 'data'      => $article,
+                    'for_edit'  => $article['for_edit'],
+                    'published' => $article['published']
                 ], 200);
             }
             return response()->json([

@@ -22,11 +22,11 @@ interface IServiceArticle
      * array $where
      *
      * @return
-     * object | null
+     * object | null | array
      */
     public function getArticle(
         array $where
-    ) : object | null;
+    ) : object | null | array;
 
     /**
      * update article
