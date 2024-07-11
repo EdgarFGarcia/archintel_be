@@ -156,6 +156,34 @@ class CompanyController extends Controller
     }
 
     /**
+     * delete company
+     * @params
+     * int $company_id
+     *
+     * @return
+     * object
+     */
+    public function deleteCompany(
+        int $company_id
+    ) : object{
+        try{
+            $delete_company = $this->service_company->deleteCompany($company_id);
+            if($delete_company){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'deleting company, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => "There's an error occured!"
+            ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
      |----------------------------------------------------------------------------
      | miscs call
      |----------------------------------------------------------------------------

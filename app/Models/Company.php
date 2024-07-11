@@ -25,6 +25,13 @@ class Company extends Model
         'company_status_id'
     ];
 
+    /**
+     * cast
+     */
+    protected $casts = [
+        'created_at'    => 'datetime:M d, Y h:i a'
+    ];
+
     public function getStatus() : HasOne{
         return $this->hasOne(CompanyStatus::class, 'id', 'company_status_id');
     }

@@ -41,7 +41,7 @@ class ServiceCompany implements IServiceCompany
         array $where = null
     ) : object | null{
         if(is_null($where)){
-            return $this->repo_company->getCompany([])->with('getStatus')->get();
+            return $this->repo_company->getCompany([])->with('getStatus')->orderBy('id', 'desc')->get();
         }
         return $this->repo_company->getCompany($where)->with('getStatus')->first();
     }
