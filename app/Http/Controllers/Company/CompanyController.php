@@ -14,6 +14,7 @@ use App\Http\Controllers\Company\Service\ServiceCompany;
  * validation inject
  */
 use App\Http\Controllers\Company\Validation\AddCompany;
+use App\Http\Controllers\Company\Validation\ValidateCompanyUpdate;
 
 class CompanyController extends Controller
 {
@@ -110,6 +111,39 @@ class CompanyController extends Controller
             return response()->json([
                 'response'  => false,
                 'data'      => []
+            ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     * update company
+     * @params
+     * Request $request
+     * int $company_id
+     *
+     * @inject
+     * -App\Http\Controllers\Company\Validation\ValidateCompanyUpdate
+     *
+     * @return
+     * int | bool
+     */
+    public function updateCompany(
+        ValidateCompanyUpdate $request,
+        int $company_id
+    ) : object{
+        try{
+            $update_company = $this->service_company->updateCompany($request->validated(), $company_id);
+            if($update_company){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'updating record, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => "something went wrong!"
             ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);

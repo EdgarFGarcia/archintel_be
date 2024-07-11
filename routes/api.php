@@ -46,6 +46,7 @@ Route::group([
     Route::post('/', [App\Http\Controllers\Company\CompanyController::class, 'addCompany']);
     Route::get('/', [App\Http\Controllers\Company\CompanyController::class, 'getCompanies']);
     Route::get('/{company_id?}', [App\Http\Controllers\Company\CompanyController::class, 'getCompany']);
+    Route::patch('/{company_id?', [App\Http\Controllers\Company\CompanyController::class, 'updateCompany']);
 });
 
 Route::group([
