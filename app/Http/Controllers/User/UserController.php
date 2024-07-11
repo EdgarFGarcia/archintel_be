@@ -17,6 +17,12 @@ use App\Http\Controllers\User\Validation\ValidateUserEdit;
  */
 use App\Http\Controllers\User\Service\ServiceUser;
 
+/**
+ * direct model
+ */
+use App\Models\UserStatus;
+use App\Models\UserType;
+
 class UserController extends Controller
 {
     /**
@@ -53,12 +59,14 @@ class UserController extends Controller
             if($login_user){
                 return response()->json([
                     'response'  => true,
-                    'data'      => $login_user
+                    'data'      => $login_user,
+                    'message'   => 'Logging in, successful!'
                 ], 200);
             }
             return response()->json([
                 'response'  => false,
-                'data'      => []
+                'data'      => [],
+                'message'   => 'something went wrong!'
             ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);
@@ -176,6 +184,31 @@ class UserController extends Controller
                 'response'  => false,
                 'message'   => 'something went wrong!'
             ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     |----------------------------------------------------------------------
+     | misc calls
+     |----------------------------------------------------------------------
+     */
+    /**
+     * get user types
+     * @params
+     * none
+     *
+     * @return
+     * object
+     */
+    public function getUserType(){
+        try{
+            return response()->json([
+                'response'      => true,
+                'user_status'   => UserStatus::get(),
+                'user_type'     => UserType::get()
+            ], 200);
         }catch(\Exception $e){
             return $this->error($e, 500);
         }

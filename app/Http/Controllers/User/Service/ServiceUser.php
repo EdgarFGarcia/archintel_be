@@ -136,9 +136,13 @@ class ServiceUser implements IServiceUser
         int $user_id = null
     ) : object | array | null{
         if(is_null($user_id)){
-            return $this->getUserInformation([])->get();
+            return $this->getUserInformation([])
+            ->with('getUserType', 'getUserStatus')
+            ->get();
         }
-        return $this->getUserInformation(['id' => $user_id])->first();
+        return $this->getUserInformation(['id' => $user_id])
+        ->with('getUserType', 'getUserStatus')
+        ->first();
     }
 
     /**

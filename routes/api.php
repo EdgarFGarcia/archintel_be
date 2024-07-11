@@ -39,6 +39,12 @@ Route::group([
 });
 
 Route::group([
+    'prefix'    => 'miscs'
+], function() {
+    Route::get('/', [App\Http\Controllers\User\UserController::class, 'getUserType']);
+});
+
+Route::group([
     'prefix'        => 'company',
     'middleware'    => 'auth:sanctum',
     'abilities'     => 'company:create,company:edit,company:delete'
