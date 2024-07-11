@@ -16,6 +16,11 @@ use App\Http\Controllers\Company\Service\ServiceCompany;
 use App\Http\Controllers\Company\Validation\AddCompany;
 use App\Http\Controllers\Company\Validation\ValidateCompanyUpdate;
 
+/**
+ * models
+ */
+use App\Models\CompanyStatus;
+
 class CompanyController extends Controller
 {
     /**
@@ -145,6 +150,22 @@ class CompanyController extends Controller
                 'response'  => false,
                 'message'   => "something went wrong!"
             ], 422);
+        }catch(\Exception $e){
+            return $this->error($e, 500);
+        }
+    }
+
+    /**
+     |----------------------------------------------------------------------------
+     | miscs call
+     |----------------------------------------------------------------------------
+     */
+    public function getMiscs(){
+        try{
+            return response()->json([
+                'response'  => true,
+                'data'      => CompanyStatus::get()
+            ], 200);
         }catch(\Exception $e){
             return $this->error($e, 500);
         }

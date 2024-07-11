@@ -42,6 +42,7 @@ Route::group([
     'prefix'    => 'miscs'
 ], function() {
     Route::get('/', [App\Http\Controllers\User\UserController::class, 'getUserType']);
+    Route::get('/company', [App\Http\Controllers\Company\CompanyController::class, 'getMiscs']);
 });
 
 Route::group([
