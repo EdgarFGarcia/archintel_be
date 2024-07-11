@@ -14,6 +14,7 @@ use App\Http\Controllers\Article\Service\ServiceArticle;
  * validtion
  */
 use App\Http\Controllers\Article\Validation\AddArticle;
+use App\Http\Controllers\Article\Validation\EditArticle;
 
 class ArticleController extends Controller
 {
@@ -98,19 +99,26 @@ class ArticleController extends Controller
      * int $article_id
      *
      * @validation
-     *
+     * -App\Http\Controllers\Article\Validation\EditArticle
      * @return
      * object | bool
      */
     public function forEdit(
-        Request $request,
+        EditArticle $request,
         int $article_id
     ) : object | bool | array{
         try{
-            return [
-                $request->all(),
-                $article_id
-            ];
+            $update_record = $this->service_article->editForEdit($request->validated(), $article_id);
+            if($update_record){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'updating record, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => 'something went wrong!'
+            ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);
         }
@@ -122,18 +130,28 @@ class ArticleController extends Controller
      * Request $request,
      * int $article_id
      *
+     * validation inject
+     * @App\Http\Controllers\Article\Validation\EditArticle
+     *
      * @return
      * object | array
      */
     public function publish(
-        Request $request,
+        EditArticle $request,
         int $article_id
     ) : object | array{
         try{
-            return [
-                $request->all(),
-                $article_id
-            ];
+            $update_record = $this->service_article->editForEdit($request->validated(), $article_id);
+            if($update_record){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'updating record, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => 'something went wrong!'
+            ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);
         }
@@ -145,18 +163,28 @@ class ArticleController extends Controller
      * Request $request,
      * int $article_id
      *
+     * validation inject
+     * @App\Http\Controllers\Article\Validation\EditArticle
+     *
      * @return
      * object | array
      */
     public function save(
-        Request $request,
+        EditArticle $request,
         int $article_id
     ) : object | array{
         try{
-            return [
-                $request->all(),
-                $article_id
-            ];
+            $update_record = $this->service_article->editForEdit($request->validated(), $article_id);
+            if($update_record){
+                return response()->json([
+                    'response'  => true,
+                    'message'   => 'updating record, successful!'
+                ], 200);
+            }
+            return response()->json([
+                'response'  => false,
+                'message'   => 'something went wrong!'
+            ], 422);
         }catch(\Exception $e){
             return $this->error($e, 500);
         }

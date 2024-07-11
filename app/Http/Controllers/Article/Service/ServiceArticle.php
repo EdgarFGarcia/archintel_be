@@ -106,4 +106,22 @@ class ServiceArticle implements IServiceArticle
     ) : int | bool{
         return $this->repo_article->deleteArticle($article_id);
     }
+
+    /**
+     * non interfaced behaviors
+     */
+    public function editForEdit(
+        array $data,
+        int $article_id
+    ) : int | bool {
+        if($data['article_status_id'] == 1){
+            $data['writer_id'] = Auth::user()->id;
+            return $this->updateArticle($article_id, $data);
+        }
+        if($data['article_status_id'] == 2){
+            $data['editor_id'] = Auth::user()->id;
+            return $this->updateArticle($article_id, $data);
+        }
+        return false;
+    }
 }
