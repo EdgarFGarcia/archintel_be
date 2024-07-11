@@ -41,4 +41,35 @@ class RepositoryUser implements IRepositoryUser
     ) : object | null{
         return User::where($where);
     }
+
+    /**
+     * update user information
+     * @params
+     * array $data,
+     * int $user_id
+     *
+     * @return
+     * int | bool
+     */
+    public function updateUser(
+        array $data,
+        int $user_id
+    ) : int | bool{
+        return User::where('id', $user_id)
+        ->update($data);
+    }
+
+    /**
+     * delete user
+     * @params
+     * int $user_id
+     *
+     * @return
+     * int | bool
+     */
+    public function deleteUser(
+        int $user_id
+    ) : int | bool{
+        return User::where('id', $user_id)->delete();
+    }
 }

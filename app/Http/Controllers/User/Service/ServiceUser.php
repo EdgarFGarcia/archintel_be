@@ -66,6 +66,36 @@ class ServiceUser implements IServiceUser
     }
 
     /**
+     * update user information
+     * @params
+     * array $data,
+     * int $user_id
+     *
+     * @return
+     * int | bool
+     */
+    public function updateUser(
+        array $data,
+        int $user_id
+    ) : int | bool{
+        return $this->repo_user->updateUser($data, $user_id);
+    }
+
+    /**
+     * delete user
+     * @params
+     * int $user_id
+     *
+     * @return
+     * int | bool
+     */
+    public function deleteUser(
+        int $user_id
+    ) : int | bool{
+        return $this->repo_user->deleteUser($user_id);
+    }
+
+    /**
      |-----------------------------------------------------------
      |non intefaced behaviors
      |----------------------------------------------------------
@@ -95,6 +125,23 @@ class ServiceUser implements IServiceUser
     }
 
     /**
+     * get user list
+     * @params
+     * int $user_id = null
+     *
+     * @return
+     * object
+     */
+    public function getUsers(
+        int $user_id = null
+    ) : object | array | null{
+        if(is_null($user_id)){
+            return $this->getUserInformation([])->get();
+        }
+        return $this->getUserInformation(['id' => $user_id])->first();
+    }
+
+    /**
      * generate token
      * @params
      * Model $data
@@ -113,17 +160,21 @@ class ServiceUser implements IServiceUser
             return $data->createToken($data->email, [
                 'article:create',
                 'article:edit',
-                'article:delete',
-                'user:create',
-                'company:create',
-                'company:edit',
-                'company:delete'
+                'article:delete'
             ]);
         }
         if($data->user_type_id == 3){
             // editor
             return $data->createToken($data->email, [
-                'article:edit'
+                'article:create',
+                'article:edit',
+                'article:delete',
+                'user:create',
+                'user:edit',
+                'user:delete',
+                'company:create',
+                'company:edit',
+                'company:delete'
             ]);
         }
         return $data->createToken($data->email);

@@ -30,9 +30,12 @@ Route::group([
 Route::group([
     'prefix'        => 'users',
     'middleware'    => 'auth:sanctum',
-    'ability'       => 'user:create'
+    'ability'       => 'user:create,user:edit,user:delete'
 ], function(){
     Route::post('/register', [App\Http\Controllers\User\UserController::class, 'register']);
+    Route::get('/{user_id?}', [App\Http\Controllers\User\UserController::class, 'getUsers']);
+    Route::patch('/{user_id?}', [App\Http\Controllers\User\UserController::class, 'updateUser']);
+    Route::delete('/{user_id?}', [App\Http\Controllers\User\UserController::class, 'deleteUser']);
 });
 
 Route::group([
@@ -48,7 +51,7 @@ Route::group([
 Route::group([
     'prefix'        => 'article',
     'middleware'    => 'auth:sanctum',
-    'ability'       => 'article:create,article:edit,'
+    'ability'       => 'article:create,article:edit,article:delete'
 ], function(){
     Route::post('/', [App\Http\Controllers\Article\ArticleController::class, 'addArticle']);
     Route::patch('/{article_id?}', [App\Http\Controllers\Article\ArticleController::class, 'forEdit']);
